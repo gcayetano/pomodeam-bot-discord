@@ -1,0 +1,32 @@
+{
+  "name": "pomodeam-bot-discord",
+  "version": "1.0.0",
+  "description": "Pomodoro on Discord!",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/gcayetano/pomodeam-bot-discord.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "pomodoro",
+    "pomodeam",
+    "focus",
+    "relax",
+    "fun",
+    "funny",
+    "enjoy",
+    "jump",
+    "clap"
+  ],
+  "author": "gcayetano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/gcayetano/pomodeam-bot-discord/issues"
+  },
+  "homepage": "https://gitlab.com/gcayetano/pomodeam-bot-discord#README"
+}
