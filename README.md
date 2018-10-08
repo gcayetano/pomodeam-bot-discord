@@ -1,1 +1,3 @@
-"pomodeam-bot-discord" 
+# Simple Pomodoro bot for Discord
+
+>... coming soon ....
