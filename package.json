@@ -4,6 +4,7 @@
   "description": "Pomodoro on Discord!",
   "main": "bot.js",
   "scripts": {
+    "start": "nodemon bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,5 +29,12 @@
   "bugs": {
     "url": "https://gitlab.com/gcayetano/pomodeam-bot-discord/issues"
   },
-  "homepage": "https://gitlab.com/gcayetano/pomodeam-bot-discord#README"
+  "homepage": "https://gitlab.com/gcayetano/pomodeam-bot-discord#README",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "dotenv": "^6.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
 }
