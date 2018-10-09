@@ -1,7 +1,8 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 
-let connectedChannelId = null;
+let teamodoro = null;
+let started = false;
 
 // Initialize Discord Bot
 var bot = new Discord.Client();
@@ -17,37 +18,46 @@ bot.on('message', message => {
     return;
   }
 
-  if (message.content.substring(0, 1) != '!' && !connectedChannelId) {
-    message.reply('Hello! There are no channels where to send the notifications. Please use `!start` in a channel')
-    return;
-  } else if (message.content.substring(0, 1) != '!') {
-    message.reply('Use `!help` to view the commands list');
-    return;
-  }
+  if (message.content.startsWith(`<@${bot.user.id}>`)) {
+    const args = message.content.split(' ');
+    const cmd = args[1];
 
-  if (message.content.substring(0, 1) == '!') {
-    let args = message.content.substring(1).split(' ');
-    const cmd = args[0];
-    args = args.splice(1);
-
-    switch(cmd) {
+    switch (cmd) {
       case 'help':
         const helpEmbed = new Discord.RichEmbed()
-          .setTitle('Help')
-          .addField('!start', 'Start pomodoro time counter', true)
+          .setTitle('Commands list by mentioning this bot')
+          .addField('start', 'Start pomodoro time counter')
+          .addField('stop', 'Stop pomodoro time counter')
           .setColor('#F52C28');
         message.channel.send(helpEmbed);
       break;
       case 'start':
-        connectedChannelId = message.channel.id;
-        const teamodoro = require('./teamodoro')(bot, connectedChannelId);
+        teamodoro = require('./teamodoro')(bot, message.channel.id);
         teamodoro.start();
+        started = true;
 
         const startEmbed = new Discord.RichEmbed()
           .setTitle('Started!')
           .setDescription('Pomodoro counter has been started!')
           .setColor('#F52C28');
         message.channel.send(startEmbed);
+      break;
+      case 'stop':
+        teamodoro.stop();
+        started = false;
+
+        const stopEmbed = new Discord.RichEmbed()
+          .setTitle('Stopped!')
+          .setDescription('Pomodoro counter has been stopped!')
+          .setColor('#F52C28');
+        message.channel.send(stopEmbed);
+      break;
+      default:
+        if (!started) {
+          message.reply(`Hello! mention me to start the pomodoro counter using \`@${bot.user.tag} start\``);
+        } else {
+          message.reply(`The counter is already started. Use \`@${bot.user.tag} stop\` to stop it.`)
+        }
       break;
     }
   }
