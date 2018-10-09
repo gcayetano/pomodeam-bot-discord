@@ -2,7 +2,7 @@ class Teamodoro {
   constructor(bot, channel) {
     this.lastState = null;
     this.lastMinute = null;
-    this.timeDifference = 0; 
+    this.timeDifference = 0;
 
     this.bot = bot;
     this.channel = channel;
@@ -42,10 +42,10 @@ class Teamodoro {
   messageOnStateChange() {
     if (this.inBreak() && this.lastState == "focus"){
       this.bot.channels.get(this.channel).send('@here Pomodoro! 5 minutitos de RELAX!')
-    } 
+    }
     else if (!this.inBreak() && this.lastState == "break"){
       this.bot.channels.get(this.channel).send('@here Se acabó el Pomodoro! ¡A TRABAJAR!')
-    }  
+    }
   }
 }
 
