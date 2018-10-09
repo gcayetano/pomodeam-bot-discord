@@ -42,7 +42,12 @@ bot.on('message', message => {
         connectedChannelId = message.channel.id;
         const teamodoro = require('./teamodoro')(bot, connectedChannelId);
         teamodoro.start();
-        message.channel.send('Pomodoro counter started!');
+
+        const startEmbed = new Discord.RichEmbed()
+          .setTitle('Started!')
+          .setDescription('Pomodoro counter has been started!')
+          .setColor('#F52C28');
+        message.channel.send(startEmbed);
       break;
     }
   }
