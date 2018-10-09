@@ -15,7 +15,7 @@ bot.on('message', message => {
   if (message.author.bot) {
     return;
   }
-  
+
   if (message.content.substring(0, 1) != '!' && !connectedChannelId) {
     message.reply('Hello! There are no channels where to send the notifications. Please use `!channel <channelName>`')
     return;
@@ -51,6 +51,7 @@ bot.on('message', message => {
       case 'start':
         const teamodoro = require('./teamodoro')(bot, connectedChannelId);
         teamodoro.start();
+        message.channel.send('Pomodoro counter started!');
       break;
     }
   }
