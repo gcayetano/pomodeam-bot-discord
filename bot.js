@@ -8,6 +8,7 @@ var bot = new Discord.Client();
 
 bot.on('ready', () => {
   // ready...
+  console.log('Redi');
 });
 
 bot.on('message', message => {
@@ -17,7 +18,7 @@ bot.on('message', message => {
   }
 
   if (message.content.substring(0, 1) != '!' && !connectedChannelId) {
-    message.reply('Hello! There are no channels where to send the notifications. Please use `!channel <channelName>`')
+    message.reply('Hello! There are no channels where to send the notifications. Please use `!start` in a channel')
     return;
   } else if (message.content.substring(0, 1) != '!') {
     message.reply('Use `!help` to view the commands list');
@@ -33,22 +34,12 @@ bot.on('message', message => {
       case 'help':
         const helpEmbed = new Discord.RichEmbed()
           .setTitle('Help')
-          .addField('!channel <name>', 'Set channel for notifications', true)
           .addField('!start', 'Start pomodoro time counter', true)
           .setColor('#F52C28');
         message.channel.send(helpEmbed);
       break;
-      case 'channel':
-        const found = bot.channels.find(x => x.name === args[0]);
-
-        if (found) {
-          connectedChannelId = found.id;
-          message.channel.send(`Connected to channel: \`${args[0]}\``);
-        } else {
-          message.channel.send('Channel not found');
-        }
-      break;
       case 'start':
+        connectedChannelId = message.channel.id;
         const teamodoro = require('./teamodoro')(bot, connectedChannelId);
         teamodoro.start();
         message.channel.send('Pomodoro counter started!');
