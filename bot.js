@@ -43,14 +43,18 @@ bot.on('message', message => {
         message.channel.send(startEmbed);
       break;
       case 'stop':
-        teamodoro.stop();
-        started = false;
+        if (teamodoro) {
+          teamodoro.stop();
+          started = false;
 
-        const stopEmbed = new Discord.RichEmbed()
-          .setTitle('Stopped!')
-          .setDescription('Pomodoro counter has been stopped!')
-          .setColor('#F52C28');
-        message.channel.send(stopEmbed);
+          const stopEmbed = new Discord.RichEmbed()
+            .setTitle('Stopped!')
+            .setDescription('Pomodoro counter has been stopped!')
+            .setColor('#F52C28');
+          message.channel.send(stopEmbed);
+        } else {
+          message.reply(`Pomodoro counter has no been started yet! Use  \`@${bot.user.tag} start\` to start it.`);
+        }
       break;
       default:
         if (!started) {
