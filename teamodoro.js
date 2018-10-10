@@ -14,7 +14,7 @@ class Teamodoro {
     this.interval = setInterval(this.updateClock.bind(this), 500);
 
     if (this.inBreak()){
-      this.bot.channels.get(this.channel).send('Pomodoro! 5 minutitos de RELAX!')
+      this.bot.channels.get(this.channel).send('@here Pomodoro! 5 minutitos de RELAX!')
     }
   }
 
@@ -46,10 +46,10 @@ class Teamodoro {
 
   messageOnStateChange() {
     if (this.inBreak() && this.lastState == "focus"){
-      this.bot.channels.get(this.channel).send('Pomodoro! 5 minutitos de RELAX!')
+      this.bot.channels.get(this.channel).send('@here Pomodoro! 5 minutitos de RELAX!')
     }
     else if (!this.inBreak() && this.lastState == "break"){
-      this.bot.channels.get(this.channel).send('Se acabó el Pomodoro! ¡A TRABAJAR!')
+      this.bot.channels.get(this.channel).send('@here Se acabó el Pomodoro! ¡A TRABAJAR!')
     }
   }
 }
