@@ -4,6 +4,7 @@ class Teamodoro {
     this.lastMinute = null;
     this.interval = null;
     this.timeDifference = 0;
+    this.started = false;
 
     this.bot = bot;
     this.channel = channel;
@@ -12,6 +13,7 @@ class Teamodoro {
   start() {
     this.updateClock();
     this.interval = setInterval(this.updateClock.bind(this), 500);
+    this.started = true;
 
     if (this.inBreak()){
       this.bot.channels.get(this.channel).send('@here Pomodoro! 5 minutitos de RELAX!')
@@ -20,6 +22,7 @@ class Teamodoro {
 
   stop() {
     clearInterval(this.interval);
+    this.started = false;
   }
 
   updateClock() {
@@ -51,6 +54,10 @@ class Teamodoro {
     else if (!this.inBreak() && this.lastState == "break"){
       this.bot.channels.get(this.channel).send('@here Se acabó el Pomodoro! ¡A TRABAJAR!')
     }
+  }
+
+  isStarted() {
+    return this.started;
   }
 }
 
