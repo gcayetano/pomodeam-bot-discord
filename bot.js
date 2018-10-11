@@ -1,8 +1,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 
-let teamodoro = null;
-let started = false;
+const instances = [];
 
 // Initialize Discord Bot
 var bot = new Discord.Client();
@@ -21,6 +20,7 @@ bot.on('message', message => {
   if (message.content.startsWith(`<@${bot.user.id}>`)) {
     const args = message.content.split(' ');
     const cmd = args[1];
+    const serverFound = instances.find(x => x.id === message.guild.id);
 
     switch (cmd) {
       case 'help':
@@ -32,20 +32,23 @@ bot.on('message', message => {
         message.channel.send(helpEmbed);
       break;
       case 'start':
-        teamodoro = require('./teamodoro')(bot, message.channel.id);
-        teamodoro.start();
-        started = true;
+        if (!serverFound) {
+          const teamodoro = require('./teamodoro')(bot, message.channel.id);
+          teamodoro.start();
+          instances.push({ id: message.guild.id, teamodoro});
 
-        const startEmbed = new Discord.RichEmbed()
+          const startEmbed = new Discord.RichEmbed()
           .setTitle('Started!')
           .setDescription('Pomodoro counter has been started!')
           .setColor('#F52C28');
-        message.channel.send(startEmbed);
+          message.channel.send(startEmbed);
+        } else {
+          message.reply(`The counter is already started. Use \`@${bot.user.tag} stop\` to stop it.`)
+        }
       break;
       case 'stop':
-        if (teamodoro) {
-          teamodoro.stop();
-          started = false;
+        if (serverFound) {
+          serverFound.teamodoro.stop();
 
           const stopEmbed = new Discord.RichEmbed()
             .setTitle('Stopped!')
@@ -57,7 +60,7 @@ bot.on('message', message => {
         }
       break;
       default:
-        if (!started) {
+        if (!serverFound || !serverFound.teamodoro.isStarted()) {
           message.reply(`Hello! mention me to start the pomodoro counter using \`@${bot.user.tag} start\``);
         } else {
           message.reply(`The counter is already started. Use \`@${bot.user.tag} stop\` to stop it.`)
