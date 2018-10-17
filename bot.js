@@ -32,7 +32,7 @@ bot.on('message', message => {
         message.channel.send(helpEmbed);
       break;
       case 'start':
-        if (!serverFound) {
+        if (!serverFound || !serverFound.teamodoro.isStarted()) {
           const teamodoro = require('./teamodoro')(bot, message.channel.id);
           teamodoro.start();
           instances.push({ id: message.guild.id, teamodoro});
@@ -47,7 +47,7 @@ bot.on('message', message => {
         }
       break;
       case 'stop':
-        if (serverFound) {
+        if (serverFound && serverFound.teamodoro.isStarted()) {
           serverFound.teamodoro.stop();
 
           const stopEmbed = new Discord.RichEmbed()
@@ -56,7 +56,7 @@ bot.on('message', message => {
             .setColor('#F52C28');
           message.channel.send(stopEmbed);
         } else {
-          message.reply(`Pomodoro counter has no been started yet! Use  \`@${bot.user.tag} start\` to start it.`);
+          message.reply(`Pomodoro counter has not been started yet! Use  \`@${bot.user.tag} start\` to start it.`);
         }
       break;
       default:
