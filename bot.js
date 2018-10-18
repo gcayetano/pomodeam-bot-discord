@@ -35,7 +35,10 @@ bot.on('message', message => {
         if (!serverFound || !serverFound.teamodoro.isStarted()) {
           const teamodoro = require('./teamodoro')(bot, message.channel.id);
           teamodoro.start();
-          instances.push({ id: message.guild.id, teamodoro});
+
+          if (!serverFound) { // Only add the instance if server not found
+            instances.push({ id: message.guild.id, teamodoro});
+          }
 
           const startEmbed = new Discord.RichEmbed()
           .setTitle('Started!')
