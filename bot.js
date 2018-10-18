@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 
-const instances = [];
+let instances = [];
 
 // Initialize Discord Bot
 var bot = new Discord.Client();
